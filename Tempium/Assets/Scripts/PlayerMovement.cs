@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
@@ -9,6 +10,8 @@ public class PlayerMovement : MonoBehaviour {
     public float blockSize = 1;
     public Path path;
     public GameNode node;
+    public InputField m_TextField;
+
 
     private Rigidbody playerRigidbody;
     private Vector3 destination;
@@ -17,6 +20,10 @@ public class PlayerMovement : MonoBehaviour {
     private bool isMove = false;
     private bool isTurn = false;
     private float t = 0;
+    private int m_i;
+    private int m_check;
+    private int m_looptmp;
+    private string[] sa;
 
     private int currentDirection = GameNode.NORTH;
 
@@ -33,22 +40,29 @@ public class PlayerMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (isMove || isTurn) {
+        if (isMove || isTurn || m_check == 0) {
             return;
         }
 
-        if (Input.GetKey(KeyCode.Space)) {
+        if (sa[m_i].Equals("Move")) {
             //destination = transform.position + transform.forward * blockSize;
             //isMove = true;
 
+            print("Move");
+            m_i++;
+
             if (node.adjacencyNode[currentDirection].destination[1] != null) {
                 isMove = true;
+                /*print("Move");
+                m_i++;*/
             }
         }
-        else if (Input.GetKey(KeyCode.LeftArrow)) {
+        else if (sa[m_i].Equals("Turn Left")) {
             //Vector3 euler = rotation.eulerAngles;
             //euler.y = Mathf.Repeat(euler.y - 90, 360);
             //destRotation = Quaternion.Euler(euler);
+            print("Turn Left");
+            m_i++;
 
             currentDirection = (currentDirection + 3) % 4;
             //while (currentDirection > 3) { 
@@ -59,10 +73,12 @@ public class PlayerMovement : MonoBehaviour {
 
             isTurn = true;
         }
-        else if (Input.GetKey(KeyCode.RightArrow)) {
+        else if (sa[m_i].Equals("Turn Right")) {
             //Vector3 euler = rotation.eulerAngles;
             //euler.y = Mathf.Repeat(euler.y + 90, 360);
             //destRotation = Quaternion.Euler(euler);
+            print("Turn Right");
+            m_i++;
 
             currentDirection = (currentDirection + 1) % 4;
             //while (currentDirection > 3) {
@@ -73,6 +89,21 @@ public class PlayerMovement : MonoBehaviour {
 
             isTurn = true;
         }
+        else if (sa[m_i].Equals("Loop")) {
+            m_looptmp = m_i;
+            m_i++;
+
+        }
+        else if (sa[m_i].Equals("End Loop")) {
+            m_i = m_looptmp;
+            m_i++;
+
+        }
+        if (m_i == sa.Length) {
+            m_check = 0;
+            //print(sa.Length);
+        }
+
     }
 
     void FixedUpdate() {
@@ -122,5 +153,39 @@ public class PlayerMovement : MonoBehaviour {
             isTurn = false;
             path = node.adjacencyNode[currentDirection];
         }
+    }
+
+    public void Run() {
+        string s = m_TextField.text;
+        sa = s.Split('\n');
+        m_i = 0;
+        int count = 0;
+        for (int i = 0; i < sa.Length; i++)
+        {
+            if (sa[i].Equals("Move") || sa[i].Equals("Turn Left") || sa[i].Equals("Turn Right"))
+            {
+            }
+            else if (sa[i].Equals("Loop"))
+            {
+                count++;
+            }
+            else if (sa[i].Equals("End Loop"))
+            {
+                if (count == 0)
+                {
+                    print("Loop error");
+                    return;
+                }
+                count--;
+            }
+            else
+            {
+                print("Syntax error");
+                return;
+            }
+
+        }
+        m_check = 1;
+
     }
 }
