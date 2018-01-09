@@ -17,7 +17,7 @@ public class BezierCurveInspector : Editor {
 
     
 
-    private void OnSceneGUI() {
+    protected void OnSceneGUI() {
         curve = target as BezierCurve;
         handleTransform = curve.transform;
         handleRotation = Tools.pivotRotation == PivotRotation.Local ? handleTransform.rotation : Quaternion.identity;
