@@ -97,12 +97,12 @@ public class PlayerMovement : MonoBehaviour {
         //    isMove = false;
         //}
         //playerRigidbody.position = path.GetPoint(t);
-        t = Mathf.MoveTowards(t, 1, Time.deltaTime * 0.5f * speed);
+        t = Mathf.MoveTowards(t, 1, Time.deltaTime * speed / path.GetVelocity(t).magnitude);
         if (t == 1) {
             isMove = false;
 
             GameNode lastNode = node;
-            node = node.adjacencyNode[currentDirection].destination[1];
+            node = path.destination[1];
 
             //check for current direction in new node
             for (int i = 0; i < 4; i++) {
@@ -111,6 +111,7 @@ public class PlayerMovement : MonoBehaviour {
                 }
             }
             path = node.adjacencyNode[currentDirection];
+            rotation = Quaternion.LookRotation(path.GetDirection(0));
 
             t = 0;
         }
@@ -118,7 +119,7 @@ public class PlayerMovement : MonoBehaviour {
 
     void Turn() {
         rotation = Quaternion.RotateTowards(rotation, destRotation, turnSpeed * Time.deltaTime);
-        if (rotation.Equals(destRotation)) { 
+        if (rotation.eulerAngles.Equals(destRotation.eulerAngles)) { 
             isTurn = false;
             path = node.adjacencyNode[currentDirection];
         }
