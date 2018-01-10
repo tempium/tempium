@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour {
     public float blockSize = 1;
     public Path path;
     public GameNode node;
+    public GameNode startNode;
 
     private Rigidbody playerRigidbody;
     private Vector3 destination;
@@ -24,6 +25,8 @@ public class PlayerMovement : MonoBehaviour {
     void Start () {
         playerRigidbody = GetComponent<Rigidbody>();
         rotation = Quaternion.identity;
+
+        node = startNode;
 
         transform.position = node.transform.position;
         transform.rotation = Quaternion.LookRotation(node.adjacencyNode[currentDirection].GetDirection(0));

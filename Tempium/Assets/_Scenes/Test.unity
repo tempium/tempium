@@ -7165,6 +7165,7 @@ MonoBehaviour:
   blockSize: 1
   path: {fileID: 0}
   node: {fileID: 393752738}
+  startNode: {fileID: 393752738}
 --- !u!1 &1675045961
 GameObject:
   m_ObjectHideFlags: 0
