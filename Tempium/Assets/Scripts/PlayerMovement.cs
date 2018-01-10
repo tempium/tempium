@@ -40,71 +40,74 @@ public class PlayerMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (isMove || isTurn || m_check == 0) {
-            return;
-        }
-
-        if (sa[m_i].Equals("Move")) {
-            //destination = transform.position + transform.forward * blockSize;
-            //isMove = true;
-
-            print("Move");
-            m_i++;
-
-            if (node.adjacencyNode[currentDirection].destination[1] != null) {
-                isMove = true;
-                /*print("Move");
-                m_i++;*/
-            }
-        }
-        else if (sa[m_i].Equals("Turn Left")) {
-            //Vector3 euler = rotation.eulerAngles;
-            //euler.y = Mathf.Repeat(euler.y - 90, 360);
-            //destRotation = Quaternion.Euler(euler);
-            print("Turn Left");
-            m_i++;
-
-            currentDirection = (currentDirection + 3) % 4;
-            //while (currentDirection > 3) { 
-            //    currentDirection -= 4;
-            //}
-
-            destRotation = Quaternion.LookRotation(node.adjacencyNode[currentDirection].GetDirection(0));
-
-            isTurn = true;
-        }
-        else if (sa[m_i].Equals("Turn Right")) {
-            //Vector3 euler = rotation.eulerAngles;
-            //euler.y = Mathf.Repeat(euler.y + 90, 360);
-            //destRotation = Quaternion.Euler(euler);
-            print("Turn Right");
-            m_i++;
-
-            currentDirection = (currentDirection + 1) % 4;
-            //while (currentDirection > 3) {
-            //    currentDirection -= 4;
-            //}
-
-            destRotation = Quaternion.LookRotation(node.adjacencyNode[currentDirection].GetDirection(0));
-
-            isTurn = true;
-        }
-        else if (sa[m_i].Equals("Loop")) {
-            m_looptmp = m_i;
-            m_i++;
-
-        }
-        else if (sa[m_i].Equals("End Loop")) {
-            m_i = m_looptmp;
-            m_i++;
-
-        }
-        if (m_i == sa.Length) {
-            m_check = 0;
-            //print(sa.Length);
-        }
-
+		getInput();
     }
+
+	void getInput() {
+		if (isMove || isTurn || m_check == 0) {
+			return;
+		}
+
+		if (sa[m_i].Equals("Move")) {
+			//destination = transform.position + transform.forward * blockSize;
+			//isMove = true;
+
+			print("Move");
+			m_i++;
+
+			if (node.adjacencyNode[currentDirection].destination[1] != null) {
+				isMove = true;
+				/*print("Move");
+                m_i++;*/
+			}
+		}
+		else if (sa[m_i].Equals("Turn Left")) {
+			//Vector3 euler = rotation.eulerAngles;
+			//euler.y = Mathf.Repeat(euler.y - 90, 360);
+			//destRotation = Quaternion.Euler(euler);
+			print("Turn Left");
+			m_i++;
+
+			currentDirection = (currentDirection + 3) % 4;
+			//while (currentDirection > 3) { 
+			//    currentDirection -= 4;
+			//}
+
+			destRotation = Quaternion.LookRotation(node.adjacencyNode[currentDirection].GetDirection(0));
+
+			isTurn = true;
+		}
+		else if (sa[m_i].Equals("Turn Right")) {
+			//Vector3 euler = rotation.eulerAngles;
+			//euler.y = Mathf.Repeat(euler.y + 90, 360);
+			//destRotation = Quaternion.Euler(euler);
+			print("Turn Right");
+			m_i++;
+
+			currentDirection = (currentDirection + 1) % 4;
+			//while (currentDirection > 3) {
+			//    currentDirection -= 4;
+			//}
+
+			destRotation = Quaternion.LookRotation(node.adjacencyNode[currentDirection].GetDirection(0));
+
+			isTurn = true;
+		}
+		else if (sa[m_i].Equals("Loop")) {
+			m_looptmp = m_i;
+			m_i++;
+
+		}
+		else if (sa[m_i].Equals("End Loop")) {
+			m_i = m_looptmp;
+			m_i++;
+
+		}
+		if (m_i == sa.Length) {
+			m_check = 0;
+			//print(sa.Length);
+		}
+	}
 
     void FixedUpdate() {
         if (isMove) {
