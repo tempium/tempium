@@ -39,13 +39,15 @@ public class Test : MonoBehaviour {
 	}
 
 	void rotateRight () {
-		temp1 = transform.rotation;
-		print (transform.rotation);
-		temp1.y += 0.03f;
-		transform.rotation = temp1;
-		if (transform.rotation.y > 0.990f) {
-			myState = stateRotate.left;
-		}
+//		temp1 = transform.rotation;
+//		print (transform.rotation);
+//		temp1.y += 0.03f;
+//		transform.rotation = temp1;
+//		if (transform.rotation.y > 0.990f) {
+//			myState = stateRotate.left;
+//		}
+		print(transform.rotation);
+		transform.Rotate(Vector3.up*2 , Space.World);
 	}
 
 	void rotateLeft () {
