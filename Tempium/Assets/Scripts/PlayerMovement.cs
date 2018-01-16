@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour {
     public float blockSize = 1;
     public Path path;
     public GameNode node;
+    public GameNode startNode;
     public InputField m_TextField;
 
 
@@ -35,12 +36,14 @@ public class PlayerMovement : MonoBehaviour {
     private int countLoop;
 
 
-    private int currentDirection = GameNode.NORTH;
+    private int currentDirection = GameNode.EAST;
 
     // Use this for initialization
     void Start () {
         playerRigidbody = GetComponent<Rigidbody>();
         rotation = Quaternion.identity;
+
+        node = startNode;
 
         transform.position = node.transform.position;
         transform.rotation = Quaternion.LookRotation(node.adjacencyNode[currentDirection].GetDirection(0));
