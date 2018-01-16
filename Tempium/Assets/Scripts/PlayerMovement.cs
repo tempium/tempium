@@ -25,7 +25,7 @@ public class PlayerMovement : MonoBehaviour {
     private int m_looptmp;
     private string[] sa;
 
-    private int currentDirection = GameNode.NORTH;
+	private int currentDirection = GameNode.EAST;
 
     // Use this for initialization
     void Start () {
@@ -35,7 +35,7 @@ public class PlayerMovement : MonoBehaviour {
         node = startNode;
 
         transform.position = node.transform.position;
-        transform.rotation = Quaternion.LookRotation(node.adjacencyNode[currentDirection].GetDirection(0));
+		transform.rotation = Quaternion.LookRotation(node.adjacencyNode[currentDirection].GetDirection(0));
         rotation = transform.rotation;
         path = node.adjacencyNode[currentDirection];
     }
@@ -43,7 +43,7 @@ public class PlayerMovement : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		getInput();
-        if (isMove || isTurn)
+		if (isMove || isTurn || GameController.isFinish())
         {
             return;
         }
