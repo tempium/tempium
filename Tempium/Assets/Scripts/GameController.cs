@@ -14,16 +14,18 @@ public class GameController : MonoBehaviour {
 
 	private static bool finish;
 	private bool nextStage;
-	private int sceneNumber;
+	private static int sceneNumber=1;
 	public GameNode currentNode;
-
+	private int allScene;
 
 	 
 	// Use this for initialization
 	void Start () {
+		flag.SetActive (true);
+		player.SetActive (true);
 		finish = false;
 		nextStage = false;
-		sceneNumber = 0;
+		allScene = 3;
 		currentNode = spawnNode;
 		finishText.text = string.Empty;
 		StartCoroutine (SpawnWave ());
@@ -38,29 +40,32 @@ public class GameController : MonoBehaviour {
 		if (nextStage) {
 			if(Input.GetKeyDown(KeyCode.Space)){
 				sceneNumber++;
-				SceneManager.LoadScene (sceneNumber);
+				Debug.Log (sceneNumber);
+				if (sceneNumber <= allScene) {
+					SceneManager.LoadScene ("Tutorial_"+sceneNumber);
+				} else {
+					sceneNumber = 0;
+					SceneManager.LoadScene ("Tutorial_End");
+				}
 			}
 		}
 	}
 
 	IEnumerator SpawnWave(){
 		yield return new WaitForSeconds (startwait);
-		PlayerMovement n_player= Instantiate(player).GetComponent<PlayerMovement>();
-		n_player.startNode = spawnNode;
-		Instantiate (flag, finishNode.transform.position, finishNode.transform.rotation);
 		while (true) {
-			yield return new WaitForSeconds (startwait);
-			currentNode = n_player.GetComponent<PlayerMovement>().node;
+			currentNode = player.GetComponent<PlayerMovement>().node;
 			if (finish) {
-				yield return new WaitForSeconds (startwait+0.5f);
 				nextStage = true;
 				break;
 			}
+			yield return new WaitForSeconds (startwait);
 		}
+		yield return new WaitForSeconds (startwait);
 	}
 	public void Finish(){
+		flag.SetActive(false);
 		finish=true;
-		flag.SetActive (false);
 	}
 	public static bool isFinish (){
 		return finish;
