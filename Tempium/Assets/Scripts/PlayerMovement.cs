@@ -6,8 +6,8 @@ using System.Text.RegularExpressions;
 using System;
 using System.Linq;
 
-
-public class PlayerMovement : MonoBehaviour {
+public class PlayerMovement : MonoBehaviour
+{
 
     public float speed = 1;
     public float turnSpeed = 90;
@@ -16,7 +16,6 @@ public class PlayerMovement : MonoBehaviour {
     public GameNode node;
     public GameNode startNode;
     public InputField m_TextField;
-
 
     private Rigidbody playerRigidbody;
     private Vector3 destination;
@@ -35,11 +34,11 @@ public class PlayerMovement : MonoBehaviour {
     private int loopCount;
     private int countLoop;
 
-
     private int currentDirection = GameNode.EAST;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         playerRigidbody = GetComponent<Rigidbody>();
         rotation = Quaternion.identity;
 
@@ -49,12 +48,71 @@ public class PlayerMovement : MonoBehaviour {
         transform.rotation = Quaternion.LookRotation(node.adjacencyNode[currentDirection].GetDirection(0));
         rotation = transform.rotation;
         path = node.adjacencyNode[currentDirection];
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        getInputFromText();
+        //getInputFromKeyBoard();
 
     }
-	
-	// Update is called once per frame
-	void Update () {
-        if (isMove || isTurn || m_check == 0) {
+    void getInputFromKeyBoard()
+    {
+        if (isMove || isTurn || GameController.isFinish())
+        {
+            return;
+        }
+
+        if (Input.GetKey(KeyCode.Space))
+        {
+            //destination = transform.position + transform.forward * blockSize;
+            //isMove = true;
+
+            if (node.adjacencyNode[currentDirection].destination[1] != null)
+            {
+                isMove = true;
+                /*print("Move");
+                m_i++;*/
+            }
+        }
+        else if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            //Vector3 euler = rotation.eulerAngles;
+            //euler.y = Mathf.Repeat(euler.y - 90, 360);
+            //destRotation = Quaternion.Euler(euler);
+
+            currentDirection = (currentDirection + 3) % 4;
+            //while (currentDirection > 3) { 
+            //    currentDirection -= 4;
+            //}
+
+            destRotation = Quaternion.LookRotation(node.adjacencyNode[currentDirection].GetDirection(0));
+
+            isTurn = true;
+        }
+        else if (Input.GetKey(KeyCode.RightArrow))
+        {
+            //Vector3 euler = rotation.eulerAngles;
+            //euler.y = Mathf.Repeat(euler.y + 90, 360);
+            //destRotation = Quaternion.Euler(euler);
+
+            currentDirection = (currentDirection + 1) % 4;
+            //while (currentDirection > 3) {
+            //    currentDirection -= 4;
+            //}
+
+            destRotation = Quaternion.LookRotation(node.adjacencyNode[currentDirection].GetDirection(0));
+
+            isTurn = true;
+        }
+    }
+
+
+    void getInputFromText()
+    {
+        if (isMove || isTurn || m_check == 0 || GameController.isFinish())
+        {
             return;
         }
         if (m_i == sa.Length)
@@ -65,21 +123,24 @@ public class PlayerMovement : MonoBehaviour {
             //print(sa.Length);
         }
 
-        Match match = Regex.Match(sa[m_i],"Loop [0-9]*");
-        if (sa[m_i].Equals("Move")) {
+        Match match = Regex.Match(sa[m_i], "Loop [0-9]*");
+        if (sa[m_i].Equals("Move"))
+        {
             //destination = transform.position + transform.forward * blockSize;
             //isMove = true;
 
             print("Move");
             m_i++;
 
-            if (node.adjacencyNode[currentDirection].destination[1] != null) {
+            if (node.adjacencyNode[currentDirection].destination[1] != null)
+            {
                 isMove = true;
                 /*print("Move");
                 m_i++;*/
             }
         }
-        else if (sa[m_i].Equals("Turn Left")) {
+        else if (sa[m_i].Equals("Turn Left"))
+        {
             //Vector3 euler = rotation.eulerAngles;
             //euler.y = Mathf.Repeat(euler.y - 90, 360);
             //destRotation = Quaternion.Euler(euler);
@@ -92,10 +153,11 @@ public class PlayerMovement : MonoBehaviour {
             //}
 
             destRotation = Quaternion.LookRotation(node.adjacencyNode[currentDirection].GetDirection(0));
-            
+
             isTurn = true;
         }
-        else if (sa[m_i].Equals("Turn Right")) {
+        else if (sa[m_i].Equals("Turn Right"))
+        {
             //Vector3 euler = rotation.eulerAngles;
             //euler.y = Mathf.Repeat(euler.y + 90, 360);
             //destRotation = Quaternion.Euler(euler);
@@ -111,12 +173,13 @@ public class PlayerMovement : MonoBehaviour {
 
             isTurn = true;
         }
-        else if (match.Success) {
+        else if (match.Success)
+        {
             //m_looptmp = m_i;
 
             m_i++;
             countLoop = 1;
-            
+
             /*m_itloop[countLoop]++;
             if (m_isin[countLoop] == 0) {
                 m_isin[countLoop] = 1;
@@ -124,7 +187,8 @@ public class PlayerMovement : MonoBehaviour {
             }*/
 
         }
-        else if (sa[m_i].Equals("End Loop")) {
+        else if (sa[m_i].Equals("End Loop"))
+        {
 
             /*if (m_itloop[countLoop] < m_limitloop[countLoop]) {
                 m_i = m_looptmp;
@@ -144,18 +208,19 @@ public class PlayerMovement : MonoBehaviour {
             countLoop++;
 
         }
-        
-
     }
 
-    void FixedUpdate() {
-        if (isMove) {
+    void FixedUpdate()
+    {
+        if (isMove)
+        {
             Move();
             transform.forward = path.GetDirection(t);
             transform.position = path.GetPoint(t);
             return;
         }
-        if (isTurn) {
+        if (isTurn)
+        {
             Turn();
             transform.rotation = rotation;
             return;
@@ -163,43 +228,49 @@ public class PlayerMovement : MonoBehaviour {
         //playerRigidbody.rotation = rotation;
     }
 
-    void Move() {
-
+    void Move()
+    {
         //playerRigidbody.position = (Vector3.MoveTowards(transform.position, destination, speed * Time.deltaTime));
         //if (transform.position.Equals(destination)) {
         //    transform.position = destination;
         //    isMove = false;
         //}
         //playerRigidbody.position = path.GetPoint(t);
-
-        t = Mathf.MoveTowards(t, 1, Time.deltaTime * 0.5f * speed);
-        if (t == 1) {
+        t = Mathf.MoveTowards(t, 1, Time.deltaTime * speed / path.GetVelocity(t).magnitude);
+        if (t == 1)
+        {
             isMove = false;
 
             GameNode lastNode = node;
-            node = node.adjacencyNode[currentDirection].destination[1];
+            node = path.destination[1];
 
             //check for current direction in new node
-            for (int i = 0; i < 4; i++) {
-                if (node.adjacencyNode[i].destination[1] == lastNode) {
+            for (int i = 0; i < 4; i++)
+            {
+                if (node.adjacencyNode[i].destination[1] == lastNode)
+                {
                     currentDirection = (i + 2) % 4;
                 }
             }
             path = node.adjacencyNode[currentDirection];
+            rotation = Quaternion.LookRotation(path.GetDirection(0));
 
             t = 0;
         }
     }
 
-    void Turn() {
+    void Turn()
+    {
         rotation = Quaternion.RotateTowards(rotation, destRotation, turnSpeed * Time.deltaTime);
-        if (rotation.Equals(destRotation)) { 
+        if (rotation.eulerAngles.Equals(destRotation.eulerAngles))
+        {
             isTurn = false;
             path = node.adjacencyNode[currentDirection];
         }
     }
 
-    public void Run() {
+    public void Run()
+    {
         string s = m_TextField.text;
         sa = s.Split('\n');
         int count = 0;
@@ -214,14 +285,14 @@ public class PlayerMovement : MonoBehaviour {
             }
             else if (match.Success)
             {
-                
+
                 string[] tmps = sa[i].Split(' ');
                 print(tmps[1]);
                 count++;
 
                 m_arlooptmp[loopCount] = i;
                 m_limitloop[loopCount] = Int32.Parse(tmps[1]);
-                print(m_limitloop[loopCount]); 
+                print(m_limitloop[loopCount]);
                 loopCount++;
 
             }
@@ -242,6 +313,7 @@ public class PlayerMovement : MonoBehaviour {
 
         }
 
+        print("Syntax OK");
         loopCount = 0;
         m_i = 0;
         m_check = 1;
