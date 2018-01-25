@@ -45,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
         node = startNode;
 
         transform.position = node.transform.position;
-        transform.rotation = Quaternion.LookRotation(node.adjacencyNode[currentDirection].GetDirection(0));
+		transform.rotation = Quaternion.LookRotation(node.adjacencyNode[currentDirection].GetDirection(0));
         rotation = transform.rotation;
         path = node.adjacencyNode[currentDirection];
     }
