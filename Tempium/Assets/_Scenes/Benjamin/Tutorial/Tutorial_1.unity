@@ -506,7 +506,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4979455571075866, guid: 8e28a272a4e774d459f9b5a5631d0e4c, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 23797838935573870, guid: 8e28a272a4e774d459f9b5a5631d0e4c,
         type: 2}
@@ -561,6 +561,7 @@ Prefab:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 114159086231332328, guid: e9b9ffd10f2a7024dbb5dad591676eed,
+
         type: 2}
       propertyPath: startNode
       value: 
@@ -760,4 +761,5 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 114097526693699664, guid: ae64be77ce99c724fb66426d66088816,
     type: 2}
   m_PrefabInternal: {fileID: 2030177338}
+
   m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
