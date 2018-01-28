@@ -9,8 +9,7 @@ public class CameraRig : MonoBehaviour {
 	private Vector3 offset;
 	// Use this for initialization
 	void Start () {
-		offset = transform.position - player.transform.position;
-		
+		offset = player.transform.position-transform.position;
 	}
 	
 	// Update is called once per frame
