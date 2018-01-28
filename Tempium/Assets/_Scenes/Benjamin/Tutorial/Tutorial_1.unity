@@ -548,7 +548,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4979455571075866, guid: 8e28a272a4e774d459f9b5a5631d0e4c, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 23797838935573870, guid: 8e28a272a4e774d459f9b5a5631d0e4c,
         type: 2}
@@ -602,7 +602,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+<<<<<<< HEAD
     - target: {fileID: 114764285710307890, guid: c4699f12d30553c4c8f783bb8e55a7bb,
+=======
+    - target: {fileID: 114159086231332328, guid: e9b9ffd10f2a7024dbb5dad591676eed,
+>>>>>>> parent of bb8a74f... Merge pull request #1 from tempium/coding
         type: 2}
       propertyPath: startNode
       value: 
@@ -827,5 +831,9 @@ Prefab:
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114988945911826768, guid: dd213506cd6cc2d42b7264f52c70ea2f,
     type: 2}
+<<<<<<< HEAD
   m_PrefabInternal: {fileID: 2000007517}
+=======
+  m_PrefabInternal: {fileID: 2030177338}
+>>>>>>> parent of bb8a74f... Merge pull request #1 from tempium/coding
   m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
